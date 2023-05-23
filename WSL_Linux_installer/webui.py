@@ -136,7 +136,7 @@ def download_model():
 
 def run_model():
     os.chdir("text-generation-webui-Parte-WSL")
-    run_cmd("python server.py --chat --model-menu --quant_attn --warmup_autotune --fused_mlp --sdp-attention --xformers --rwkv-cuda --no-stream --extensions silero_tts", environment=True)  # put your flags here!
+    run_cmd("python server.py --chat --wbits 4 --groupsize 128 --model-menu --quant_attn --warmup_autotune --fused_mlp --sdp-attention --xformers --rwkv-cuda --no-stream --extensions silero_tts", environment=True)  # put your flags here!
 
 
 if __name__ == "__main__":
@@ -159,9 +159,7 @@ if __name__ == "__main__":
         if len(glob.glob("text-generation-webui-Parte-WSL/models/*/")) == 0:
             download_model()
             os.chdir(script_dir)
-            
         cmd = 'gnome-terminal -- bash -c "./API_start.sh; exec bash"'
         process = subprocess.Popen(cmd, shell=True)
-
         # Run the model with webui
         run_model()
